@@ -1,25 +1,26 @@
 from django.shortcuts import render
-import mysql.connector as sql
-
-phone=''
-password=''
+from signup.models import User
+from .forms import ImagePicker
 
 def login(request):
-    global phone,password
     if request.method=='POST':
-        m=sql.connect(host='localhost',user='root',password='2410',database='authentication_system')
-        cursor=m.cursor()
-        data=request.POST
-        for key,value in data.items():
-            if key=='phone':
-                phone=value
-            else:
-                password=value
-        c="select * from users where password='{}' and phone='{}'".format(password,phone)
-        cursor.execute(c)
-        t=tuple(cursor.fetchall())
-        if(t==()):
-            return render(request,'error.html')
+        phone=request.POST.get('phone')
+        password=request.POST.get('password')
+        user=User.objects.filter(phone=phone,password=password)
+        print(user)
+        if user: 
+            return dashboard(request,user)
         else:
-            return render(request,'welcome.html')
+            return render(request,'error.html')
     return render(request,'login.html')
+
+def dashboard(request,user):
+    print(user[0],'details')
+    if request.method=='POST':
+        form=ImagePicker(request.POST,request.FILES)
+        if form.is_valid():
+           print(form ,'form')
+           form.save()
+           return render(request,'dashboard.html',{'form':form,'user':user[0]})
+        else:
+            return render('error.html')

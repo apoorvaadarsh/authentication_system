@@ -1,27 +1,13 @@
 from django.shortcuts import render
-import mysql.connector as sql
-
-name=''
-phone=''
-password=''
-adress=''
+from signup.models import User
 
 def signup(request):
-    global name,phone,password,adress
     if request.method=='POST':
-        m=sql.connect(host='localhost',user='root',password='2410',database='authentication_system')
-        cursor=m.cursor()
-        data=request.POST
-        for key,value in data.items():
-            if key=='name':
-                name=value
-            elif key=='phone':
-                phone=value
-            elif key=='password':
-                password=value
-            elif key=='adress':
-                adress=value
-        c="insert into users Values('{}','{}','{}','{}')".format(name,password,adress,phone)
-        cursor.execute(c)
-        m.commit()
+        name=request.POST.get('name')
+        phone=request.POST.get('phone')
+        password=request.POST.get('password')
+        adress=request.POST.get('adress')
+        user=User(name=name,phone=phone,password=password,adress=adress)
+        user.save()
+        print("data written")
     return render(request,'signup.html')
