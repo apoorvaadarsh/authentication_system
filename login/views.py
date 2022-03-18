@@ -7,20 +7,20 @@ def login(request):
         phone=request.POST.get('phone')
         password=request.POST.get('password')
         user=User.objects.filter(phone=phone,password=password)
-        print(user)
-        if user: 
+        print(user,'if exists')
+        if user:
             return dashboard(request,user)
         else:
+            print('error page dispaly ')
             return render(request,'error.html')
     return render(request,'login.html')
 
 def dashboard(request,user):
     print(user[0],'details')
     if request.method=='POST':
-        form=ImagePicker(request.POST,request.FILES)
+        form=ImagePicker(request.POST,request.FILES,instance=user[0])
         if form.is_valid():
-           print(form ,'form')
+           print(user[0].profilePic ,'pic')
            form.save()
-           return render(request,'dashboard.html',{'form':form,'user':user[0]})
-        else:
-            return render('error.html')
+    form=ImagePicker()
+    return render(request,'dashboard.html',{'form':form,'user':user[0]})

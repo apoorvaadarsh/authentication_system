@@ -12,4 +12,4 @@ class User(models.Model):
     phone=models.CharField(max_length=10,primary_key=True)
     password=models.CharField(max_length=50)
     adress=models.TextField(default="NULL")
-    profilePic=models.ImageField(upload_to=profile_pic_path,default="NULL",verbose_name="Profile Pic")
+    profilePic=models.ImageField(upload_to=profile_pic_path,verbose_name="Profile Pic")
