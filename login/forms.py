@@ -5,6 +5,6 @@ from signup.models import User
 class ImagePicker(forms.ModelForm):
     class Meta:
         model=User
-        fields=['profilePic']
+        fields='__all__'
         labels={'profilePic':''}
         # fields='__all__'
