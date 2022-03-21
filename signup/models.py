@@ -7,9 +7,9 @@ def profile_pic_path(user,filename):
     print(user,filename)
     return '{0}/{1}'.format(user.phone,filename)
 
+
 class User(models.Model):
     name=models.CharField(max_length=50)
     phone=models.CharField(max_length=10,primary_key=True)
     password=models.CharField(max_length=50)
     adress=models.TextField(default="NULL")
-    profilePic=models.ImageField(upload_to=profile_pic_path,verbose_name="Profile Pic")

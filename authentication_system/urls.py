@@ -19,10 +19,12 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from signup.views import signup
-from login.views import login
+from login.views import  login
+from dashboard.views import dashboard
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/',signup),
     path('login/',login),
+    path('dashboard/',dashboard),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
